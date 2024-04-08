@@ -1,4 +1,4 @@
-Hello and welcome everyone to my WriteUp for the "Breakfast with Grandma" Challenge By the author @j3x for the event HACK TILL S'HOUR (Or PWN TILL S'HOUR for this year) Held By The Club of Shellmates 
+Hello and welcome everyone to my WriteUp for the "Breakfast with Grandma" Challenge By the author @j3x for the event HACK TILL S'HOUR (Or PWN TILL S'HOUR for this year) Held By The Club of @Shellmates
 I'd just just to point out that this is my first ever doing a WriteUp for a CTF challenge and since i'm kinda a new/noobie in this the CTF game So if it is too long or smth like that i apologize from now since i'm trying not only to write The Solution but as well as the thinking procedure that lead us to the Flag , So let's Go : 
 
 1. We Are Faced with a login page as shown in the Following image : 
