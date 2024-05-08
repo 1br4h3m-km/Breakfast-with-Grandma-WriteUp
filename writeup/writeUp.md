@@ -41,7 +41,7 @@ We then find a JWT Token let's decrypt it using JWT.io : We Find an used ID , ia
 decode it using base64 -d command in terminal (or just use a tool like CyberChef ) we find it's the same data showed in the dashboard 
 `{"username":"bobby","age":4,"favouriteMeal":"Cereals","_2ndFavMeal":"Cookies"}`
 
-for more informations about NoSQL injection check [this link] https://book.hacktricks.xyz/pentesting-web/nosql-injection
+for more informations about NoSQL injection check [this link](https://book.hacktricks.xyz/pentesting-web/nosql-injection)
 
 ### JWT signatur bruteforcing
 Let's Find the JWT Signature password using our friend john (a tool to brute force passwords ) like this : 
