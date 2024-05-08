@@ -1,7 +1,7 @@
 # Description
 
-Hello and welcome everyone to my WriteUp for the "Breakfast with Grandma" Challenge By the author @j3x for the event HACK TILL S'HOUR (Or PWN TILL S'HOUR for this year) Held By The Club of @Shellmates
-I'd just just to point out that this is my first ever doing a WriteUp for a CTF challenge and since i'm kinda a new/noobie in this the CTF game So if it is too long or smth like that i apologize from now since i'm trying not only to write The Solution but as well as the thinking procedure that lead us to the Flag , So let's Go : 
+Hello and welcome everyone to my WriteUp for the "Breakfast with Grandma" Challenge By the author `@j3x` for the event PWN TILL S'HOUR for this year Held By The Club of @Shellmates
+I'd just to point out that this is my first ever doing a WriteUp for a CTF challenge so if it is too long or something like that I apologize from now since I'm trying not only to write The Solution but as well as the thinking procedure that lead us to the Flag, So let's Go : 
 
 ### NoSQL injection
 1. We Are Faced with a login page as shown in the Following image : 
@@ -9,12 +9,12 @@ I'd just just to point out that this is my first ever doing a WriteUp for a CTF 
 ![alt text](login.png)
 ![alt text](JSON-Credits.png)
 
-After following around a bit with the debugger and Burp Suite we can see that the response that contains the credentials inputted in the form is returned through JSON Format (here i said it's definitely a NoSQL Injection since they are who use JSON , i did some testing to confirm is was node with Mongo in burp like this : )
+After following around a bit with the debugger and Burp Suite we can see that the response that contains the credentials inputted in the form is returned through JSON Format (here i said it's definitely a NoSQL Injection since they are who use JSON, i did some testing to confirm is was node with Mongo in burp like this : )
 
 
 ![alt text](Node-error.png)
 
-### So what is a `NoSQL` injection ?
+### So what is a `NoSQL` injection?
 
 NoSQL injection is a security weakness in a web application that uses a NoSQL database, can allow attackers to bypass authentication, exfiltrate sensitive data, tamper with data on the database, or even compromise the database and the underlying server Most NoSQL injection vulnerabilities occur because developers accept and process user inputs without properly sanitizing them
 
@@ -41,8 +41,11 @@ We then find a JWT Token let's decrypt it using JWT.io : We Find an used ID , ia
 decode it using base64 -d command in terminal (or just use a tool like CyberChef ) we find it's the same data showed in the dashboard 
 `{"username":"bobby","age":4,"favouriteMeal":"Cereals","_2ndFavMeal":"Cookies"}`
 
+for more informations about NoSQL injection check [this link]https://book.hacktricks.xyz/pentesting-web/nosql-injection
+
+### JWT signatur bruteforcing
 Let's Find the JWT Signature password using our friend john (a tool to brute force passwords ) like this : 
-john token.txt -w=/usr/share/wordlists/rockyou.txt (make sure to put ur JWT token in the txt file correctly : no spaces or anything else cause it may cause problems and not be found ) 
+john token.txt -w=/usr/share/wordlists/rockyou.txt (make sure to put ur JWT token in the txt file correctly: no spaces or anything else cause it may cause problems and not be found ) 
 """
 $ john token.txt -w=/usr/share/wordlists/rockyou.txt 
 Using default input encoding: UTF-8
@@ -54,9 +57,10 @@ shellmatexx      (?)
 Use the "--show" option to display all of the cracked passwords reliably
 Session completed. 
 """
-The password is found : shellmatexx , this is gonna allow us to change the jwt as we which (only the base64 part , since the other ones are used for the session)
 
-here we are bit stuck ig? let's take a look at the source code , after some good search we find a serialization/deserialization code , let's ask ChatGPT if it's vulnerable to RCE (Remote Code Execution ) , The answer Is YES 
+The password is found : `shellmatexx`, this is gonna allow us to change the jwt as we which (only the base64 part, since the other ones are used for the session)
+
+here we are bit stuck ig? let's take a look at the source code, after some good search we find a serialization/deserialization code, let's ask ChatGPT if it's vulnerable to RCE (Remote Code Execution ) , The answer Is YES 
 Now we look for ready to use exploits for this case : i first found one which is the most commun/basic one let's test it : 
 Source : https://www.exploit-db.com/exploits/45265
 var serialize = require('node-serialize');
