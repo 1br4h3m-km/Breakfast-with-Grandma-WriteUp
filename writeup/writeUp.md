@@ -14,6 +14,11 @@ After following around a bit with the debugger and Burp Suite we can see that th
 
 ![alt text](Node-error.png)
 
+### So what is a `NoSQL` injection ?
+
+NoSQL injection is a security weakness in a web application that uses a NoSQL database, can allow attackers to bypass authentication, exfiltrate sensitive data, tamper with data on the database, or even compromise the database and the underlying server Most NoSQL injection vulnerabilities occur because developers accept and process user inputs without properly sanitizing them
+
+### We go back to our challenge
 
 First i tried with admin credits Injection like this : {"username":"admin","password":{"$ne": "x"}} Work 
 then i changes it to this and we have a successful login (ofc we use Burp to send the request , u can also use ZAP or cURL but this is more simple ): 
