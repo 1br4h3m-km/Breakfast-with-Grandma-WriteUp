@@ -20,23 +20,26 @@ NoSQL injection is a security weakness in a web application that uses a NoSQL da
 
 ### We go back to our challenge
 
-First i tried with admin credits Injection like this : {"username":"admin","password":{"$ne": "x"}} Work 
-then i changes it to this and we have a successful login (ofc we use Burp to send the request , u can also use ZAP or cURL but this is more simple ): 
-{"username":{"$ne": "x"},"password":{"$ne": "x"}} 
+First i tried with admin credits Injection like this : 
+`{"username":"admin","password":{"$ne": "x"}}`
+Work then i changes it to this and we have a successful login (ofc we use Burp to send the request , u can also use ZAP or cURL but this is more simple ): 
+`{"username":{"$ne": "x"},"password":{"$ne": "x"}}`
 
-![alt text](Payload-NoSQLi.png)
+![alt text](Payload-NoSQLi.png) 
 
 ![alt text](SuccessLogin-Dashboard.png)
 
 Once Logged In we don't have much to See and since the description Talked about cookies then it's probably a good idea to check them in the Storage Tab using developper tools (CTRL SHIFT C , or just right click and select it ) 
 We then find a JWT Token let's decrypt it using JWT.io : We Find an used ID , iat (expiration time or smth lmao ) and an also an encodedData which contains a Base64 Coded Text : 
+`
 {
   "userId": "********************",
   "encodedData": "eyJ1c2VybmFtZSI6ImJvYmJ5IiwiYWdlIjo0LCJmYXZvdXJpdGVNZWFsIjoiQ2VyZWFscyIsIl8ybmRGYXZNZWFsIjoiQ29va2llcyJ9",
   "iat": 1712537034
 }
+`
 decode it using base64 -d command in terminal (or just use a tool like CyberChef ) we find it's the same data showed in the dashboard 
-{"username":"bobby","age":4,"favouriteMeal":"Cereals","_2ndFavMeal":"Cookies"}
+`{"username":"bobby","age":4,"favouriteMeal":"Cereals","_2ndFavMeal":"Cookies"}`
 
 Let's Find the JWT Signature password using our friend john (a tool to brute force passwords ) like this : 
 john token.txt -w=/usr/share/wordlists/rockyou.txt (make sure to put ur JWT token in the txt file correctly : no spaces or anything else cause it may cause problems and not be found ) 
